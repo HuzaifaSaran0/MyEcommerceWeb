@@ -1,0 +1,98 @@
+{% extends "shop/basic.html" %}
+
+
+{% block title %} About Us {% endblock %}
+{% block css %}
+<style>
+    #pop-cart {
+        display: none;
+    }
+
+    [type=button]:not(:disabled),
+    [type=reset]:not(:disabled),
+    [type=submit]:not(:disabled),
+    button:not(:disabled) {
+        cursor: pointer;
+        display: none;
+    }
+
+    /* *,
+    ::after,
+    ::before {
+        color: black;
+        
+    } */
+    /* p {
+        color: white;
+} */
+
+    .row {
+        justify-content: center;
+    }
+
+    .container-fluid {
+        color: black;
+    }
+
+    .hellomsg {
+        font-size: 18px;
+        margin-right: 20px;
+        text-decoration: none;
+        color: white;
+    }
+
+    #logout:hover {
+        color: #fff;
+    }
+
+    
+</style>
+{% endblock %}
+{% block body %}
+
+<main style="color:aliceblue;">
+    <div class="container aboutus">
+        <div class="p-6 mb-3 bg-body-tertiary rounded-3 my-5">
+            <div class="container-fluid py-0">
+                <div class="py-5-text-center text-center">
+                    <img class="d-block mx-auto mb-4"
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLa9WgapWtqgqJPEFb2yEvC2WYFqeIz-pW1A&usqp=CAU"
+                        alt="" width="72" height="57">
+                    <h2>About Us</h2>
+                    <p class="lead" style="font-size: x-large;">A place where you GET what you actually NEED.<br>Don't
+                        believe?? Try😉</p>
+                </div>
+                <br>
+                <h3 style="text-align: center;"><i>Welcome to ALI: Your Ultimate Shopping Destination</i></h3>
+                <p class="col-md-12 fs-4" style="font-size:20px"><i>ALI, Inc. is a Pakistani
+                        multinational automotive and clean energy company headquartered in Islamabad, Pakistan, which
+                        designs,
+                        manufactures and sells battery electric vehicles (BEVs), stationary battery energy storage
+                        devices
+                        from home to grid-scale, solar panels and solar shingles, and related products and services. The
+                        company is also developing artificial intelligence and robotics products.</i></p>
+                <p class="col-md-12 fs-4" style="font-size:20px"><i>ALI was founded with a simple yet powerful vision:
+                        to create a shopping environment that caters to the needs and desires of our customers.
+                        Our journey began as a small, family-owned business with a passion for offering quality products
+                        at reasonable prices. Over the years, we have grown and evolved, but our commitment to our
+                        customers
+                        has remained unwavering.From our humble beginnings, we have expanded our product range and
+                        enhanced
+                        our services to meet the changing needs of our customers.
+                        Today, ALI is proud to offer a vast selection of products, from fashion and electronics to home
+                        goods and beauty products. We strive to keep our inventory fresh and exciting,
+                        ensuring that there is always something new to discover at ALI.</i></p>
+                <h3><i>&nbsp;&nbsp;Join the ALI Community</i></h3>
+                <p class="col-md-12 fs-4" style="font-size:20px"><i>Stay connected with us and be the first to know
+                        about new arrivals, special promotions, and exclusive offers. Follow us on social media,
+                        sign up for our newsletter, and become a part of the ALI community.
+
+                        Thank you for visiting ALI. Happy shopping!</i></p>
+            </div>
+        </div>
+
+    </div>
+    <!-- Footer -->
+
+</main>
+{% endblock %}

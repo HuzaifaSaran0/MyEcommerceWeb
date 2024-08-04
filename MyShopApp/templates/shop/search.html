@@ -1,0 +1,258 @@
+{% extends "shop/basic.html" %}
+
+
+{% block title %} Search Page  {% endblock %}
+
+{% block css %}
+<style>
+  .btn-primary {
+    width: 50px;
+    font-size: x-small;
+  }
+
+
+</style>
+{% endblock %}
+{% block body %}
+{% load static %}
+
+
+<div id="carouselExampleIndicators" class="carousel slide">
+  <div class="carousel-indicators">
+    <button type="button" data-target="#carouselExampleIndicators" data-slide-to="0" class="active" aria-current="true"
+      aria-label="Slide 1"></button>
+    <button type="button" data-target="#carouselExampleIndicators" data-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-target="#carouselExampleIndicators" data-slide-to="2" aria-label="Slide 3"></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active images">
+      <img src="https://img.freepik.com/free-photo/arrangement-black-friday-shopping-carts-with-copy-space_23-2148667047.jpg" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item images">
+      <img src="https://img.freepik.com/free-photo/shopping-bag-cart_23-2148879372.jpg"
+        class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item images">
+      <img
+        src="https://img.freepik.com/free-photo/cyber-monday-sale-shopping-cart-copy-space_23-2148670011.jpg"
+        class="d-block w-100" alt="...">
+    </div>
+  </div>
+  <button class="carousel-control-prev tt ttl" type="button" data-target="#carouselExampleIndicators" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </button>
+  <button class="carousel-control-next tt ttr" type="button" data-target="#carouselExampleIndicators" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </button>
+
+</div>
+
+
+
+<div class="container"> <!-- 1 -->
+
+  {% for product,range,nSlides in allProds %}
+  <h4 class="my-4 mx-2" id="category-header" style="color: white;">{{product.0.category}}</h4>
+  <div class="row" style="justify-content: center;">
+    <div id="demo{{forloop.counter}}" class="col carousel slide my-3" data-ride="carousel"> <!-- 2 -->
+      <ul class="carousel-indicators">
+        <li data-target="#demo{{forloop.counter}}" data-slide-to="0" class="active"></li>
+        {% for i in range %}
+        <li data-target="#demo{{forloop.parentloop.counter}}" data-slide-to="{{i}} "></li>
+        {% endfor%}
+
+      </ul>
+
+      <div class="container carousel-inner no-padding"> <!-- 3 -->
+        <div class="carousel-item active"> <!-- 4 -->
+          {% for i in product %}
+          <div class="col-xs-3 col-sm-1 col-md-3"> <!-- 9 -->
+            <div class="card" id="card"> <!-- 10 -->
+              <a href="http://127.0.0.1:8000/shop/product_view/{{i.id}}"
+                style="text-decoration: none; color: inherit;"><img src='/media/{{i.image }}' class="card-img-top"
+                  alt="..."></a>
+              <div class="card-body" id="card-body"> <!-- 11 -->
+
+                <a href="http://127.0.0.1:8000/shop/product_view/{{i.id}}"
+                  style="text-decoration: none; color: inherit;">
+                  <h5 class="name" id="name_pr{{i.id}}">{{i.product_name|slice:"0:25"}}</h5>
+                </a>
+                <p id="descp">{{i.description|slice:"0:15"}}...</p>
+                <!-- <p >{{i.desc|slice:"0:25"}} </p> -->
+                <!-- <span id="name_pr{{i.id}}" style="display:none;">{{i.product_name}}</span> -->
+
+                <h5 class="card-title price">Price:
+                  <span id="price_pr{{i.id}}"> {{i.price}}</span> $
+                </h5>
+                <span id="divpr{{i.id}}" class="divpr">
+
+                  <button class="btn btn-primary cart prr" id="pr{{i.id}}">Add To Cart</button>
+                </span>
+                <a href="/shop/product_view/{{i.id}}">
+                  <button class="btn btn-primary cart prr" id="qv{{i.id}}">Quick View</button>
+                </a>
+              </div> <!-- 11 -->
+            </div> <!-- 10 -->
+          </div> <!-- 9 -->
+          {% if forloop.counter|divisibleby:1 and forloop.counter > 0 and not forloop.last%}
+        </div> <!--5-->
+        <div class="carousel-item"> <!-- 4 -->
+          {% endif %}
+          {% endfor %}
+        </div>
+      </div> <!-- 3 -->
+    </div> <!-- 2 -->
+
+    <a class="carousel-control-prev " href="#demo{{forloop.counter}}" role="button" data-slide="prev">
+      <span class="" aria-hidden="true" style="font-size: xx-large; color: burlywood;">&#8592;</span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#demo{{forloop.counter}}" role="button" data-slide="next">
+      <span class="" aria-hidden="true" style="font-size: xx-large; color: burlywood;">&#8594;</span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+  {% endfor %}
+</div>
+<br>
+<br>
+{% endblock %}
+
+
+
+
+
+{% block js %}
+
+<script>
+{% if msg != "" %}
+alert('{{msg}}');
+window.location.href = "/";
+{% endif %}
+
+  if (localStorage.getItem('cart') == null) {
+    var cart = {};
+  } else {
+    cart = JSON.parse(localStorage.getItem('cart'));
+    let totalItems = Object.values(cart).reduce((acc, quantity) => acc + quantity[0], 0);
+    document.getElementById('cart').innerHTML = totalItems;
+    update_Cart(cart);
+    update_popover(cart);
+  }
+
+  $('.divpr').on("click", "button.prr", function () {
+    var ids_str = this.id.toString();
+    if (cart[ids_str] != undefined) {
+      qty = cart[ids_str][0] + 1;
+    } else {
+      qty = 1;
+      name = document.getElementById('name_' + ids_str).innerHTML;
+      price = document.getElementById('price_' + ids_str).innerHTML;
+      cart[ids_str] = [qty, name, price];
+      console.log(cart);
+    }
+    update_Cart(cart);
+    update_popover(cart);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    let totalItems = Object.values(cart).reduce((acc, quantity) => acc + quantity[0], 0);
+    document.getElementById('cart').innerHTML = totalItems;
+    $('#pop-cart').popover('show');
+  });
+
+  $('#pop-cart').popover();
+
+  function update_popover(cart) {
+    var popstr = "<h6>Your Cart</h6><div class='my-2 mx-2'>";
+    var i = 1;
+    var condition = false;
+    for (var item in cart) {
+      var nameofitem = document.getElementById('name_' + item);
+      if (nameofitem) {
+        if (cart[item][0] > 0) {
+          popstr += "<b> " + i + "</b>";
+          popstr += "<b><i>: " + nameofitem.innerHTML + "</b>" + ",  Qty = " + "<b><i>" + cart[item][0] + "</b>" + '<br>';
+          condition = true;
+        } else {
+          i -= 1;
+
+        }
+      } else {
+        console.warn(`Element with ID 'div${item}' does not exist.`);
+
+        popstr += `Product ID ${item}, Qty = ${cart[item][0]}<br>`;
+      }
+      i++;
+    }
+    if (condition == false) {
+      var popstr = "<h6>Your Cart is Empty Still!</h6><div class='my-2 mx-2'>";
+    }
+    popstr += "</div><a href='/shop/checkout' class=' mx-2 my-4' id ='checkout' style='color:black; background-color:light-blue;'>CHECKOUT</a>";
+    popstr += "<a id='clear_cart' style='cursor:pointer;'>CLEAR CART</a>";
+    document.getElementById('pop-cart').setAttribute('data-content', popstr);
+    $('#pop-cart').popover('show');
+  }
+
+  $('[data-toggle="popover"]').on('shown.bs.popover', function () {
+    $('#clear_cart').click(function () {
+      cart = JSON.parse(localStorage.getItem('cart'));
+      for (var item in cart) {
+        document.getElementById('div' + item).innerHTML = `<button class="btn btn-primary cart prr" id="${item}" class="divpr">Add To Cart</button>`;
+      }
+      localStorage.clear();
+      cart = {};
+      update_Cart(cart);
+      update_popover(cart);
+      document.getElementById('cart').innerHTML = 0;
+    });
+  });
+
+  function update_Cart(cart) {
+    for (var item in cart) {
+      document.getElementById('div' + item).innerHTML = `<button id='minus${item}' class='btn btn-primary minus'>-</button><span id='val${item}'>${cart[item][0]}</span><button id='plus${item}' class='btn btn-primary plus'>+</button>`;
+    }
+  }
+
+  function update_Cart(cart) {
+    for (var item in cart) {
+      if (document.getElementById('div' + item)) {
+        document.getElementById('div' + item).innerHTML = `<button id='minus${item}' class='btn btn-primary minus'>-</button><span id='val${item}'>${cart[item][0]}</span><button id='plus${item}' class='btn btn-primary plus'>+</button>`;
+      }
+    }
+  }
+
+  $('.divpr').on("click", "button.minus", function () {
+    var a = this.id.slice(7);
+    if (cart['pr' + a][0] > 0) {
+      cart['pr' + a][0] = cart['pr' + a][0] - 1;
+      document.getElementById('valpr' + a).innerHTML = cart['pr' + a][0];
+      localStorage.setItem('cart', JSON.stringify(cart));
+      let totalItems = Object.values(cart).reduce((acc, quantity) => acc + quantity[0], 0);
+      document.getElementById('cart').innerHTML = totalItems;
+      update_Cart(cart);
+      update_popover(cart);
+    }
+  });
+
+  $('.divpr').on("click", "button.plus", function () {
+    var a = this.id.slice(6);
+    if (cart['pr' + a][0] >= 0) {
+      cart['pr' + a][0] = cart['pr' + a][0] + 1;
+      document.getElementById('valpr' + a).innerHTML = cart['pr' + a][0];
+      localStorage.setItem('cart', JSON.stringify(cart));
+      let totalItems = Object.values(cart).reduce((acc, quantity) => acc + quantity[0], 0);
+      document.getElementById('cart').innerHTML = totalItems;
+      update_Cart(cart);
+      update_popover(cart);
+    }
+  });
+
+  document.addEventListener('click', function (event) {
+    var popoverElement = document.getElementById('pop-cart');
+    if (!popoverElement.contains(event.target) && !event.target.closest('.popover')) {
+      $('#pop-cart').popover('hide');
+    }
+  });
+</script>
+{% endblock %}

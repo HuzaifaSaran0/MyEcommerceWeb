@@ -1,0 +1,237 @@
+{% extends 'shop/basic.html' %}
+{% block title%} Tracker - ALI{% endblock %}
+
+{% block CSS %}
+<style>
+    .btn-secondary {
+
+        display: none;
+    }
+
+    #pop-cart {
+        display: none;
+    }
+
+    .row {
+        justify-content: center;
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    .mb-3,
+    .needs-validation {
+        color: white;
+    }
+
+
+    .hellomsg {
+        font-size: 18px;
+        margin-right: 20px;
+        text-decoration: none;
+        color: white;
+    }
+
+    #logout:hover {
+        color: #fff;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container check">
+    <main>
+        <!-- Top Start -->
+        <div class="col py-5 text-center">
+            <img class="d-block mx-auto mb-4"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLa9WgapWtqgqJPEFb2yEvC2WYFqeIz-pW1A&usqp=CAU"
+                alt="" width="72" height="57">
+            <h2>Track Your Order</h2>
+            <i><span style="font-size: x-large;" class="lead">Keep an Eye on Your Delivery: Quick and Easy
+                    Tracking.</span></i>
+        </div>
+
+        <!-- Top End -->
+
+        <div class="row g-5" style="background-color: rgb(36, 33, 33); border-radius: 20px; padding: 30px;">
+            <div class="col-md-7 col-lg-8">
+                <form class="needs-validation" novalidate action="#" method="post" id="tracker_form">{% csrf_token %}
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <label for="email" class=" form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email"
+                                placeholder="Enter your Email" required>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="order_id" class="form-label">Order Id</label>
+                            <input type="text" class="form-control" id="order_id" name="order_id"
+                                placeholder="Enter your Order Id" required>
+                        </div>
+                    </div>
+
+                    <button class="w-100 btn btn-primary btn-lg my-4" type="submit">Track</button>
+
+                    <div class="col-my-2">
+                        <h3 id="status" style="display: none;">Your Order Status</h3>
+                        <div class="my-2">
+                            <ul style="color:black; font-weight: bold;" class="list-group" id="items">
+                            </ul>
+                        </div>
+
+                        <h3 id="details" style="display: none;">Your Order Details</h3>
+                        <div class="my-2">
+                            <ul style="color:black; font-weight: bold;" class="list-group" id="c_items">
+
+                            </ul>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </main>
+</div>
+<br>
+{% endblock %}
+
+{% block js %}
+<script>
+    $('#tracker_form').submit(function (event) {
+        $('#items').empty();
+        var form_data = {
+            'order_id': $('input[name=order_id]').val(),
+            'email': $('input[name=email]').val(),
+            'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+        };
+        $.ajax({
+            type: 'POST',
+            url: '/shop/tracker/',
+            data: form_data,
+            encode: true
+        })
+
+
+            .done(function (data) {
+                $('#items').empty();
+                $('#c_items').empty();
+                $('#details').hide();
+                $('#status').hide();
+                // Safely parse data
+                try {
+                    data = JSON.parse(data);
+                } catch (error) {
+                    console.error("Error parsing JSON:", error);
+                    $('#items').append('<li class="list-group-item d-flex justify-content-between lh-sm"><div><h5 style="color:black;" class="my-0">An error occurred while fetching the data. Please try again later.</h5></div></li>');
+                    return;
+                }
+
+                // Handle updates
+                if (data[0] && Array.isArray(data[0])) {
+                    let updates = data[0];
+
+                    if (updates.length > 0) {
+                        updates.forEach(function (update) {
+                            let text = update['text'];
+                            let time = new Date(update['time']);
+                            time = time.toString().split(' ').slice(0, 5).join(' ');
+
+                            let mystr = `<li class="list-group-item d-flex justify-content-between lh-sm">
+                    <div>
+                        <h6 class="my-0">${text}</h6>
+                    </div>
+                    <span class="text-body-secondary">${time}</span>
+                </li>`;
+                            $('#items').append(mystr);
+                        });
+                    } else {
+                        let mystr = `<li class="list-group-item d-flex justify-content-between lh-sm">
+                <div>
+                    <h5 style="color:black;" class="my-0">Sorry! No order updates are available.</h5>
+                </div>
+            </li>`;
+                        $('#items').append(mystr);
+                    }
+                } else {
+                    // console.error("Unexpected data format:", data);
+                    let mystr = `<li class="list-group-item d-flex justify-content-between lh-sm">
+            <div>
+                <h5 style="color:black;" class="my-0">Sorry! We are not able to fetch this email and order id. Make sure your credentials are correct.</h5>
+            </div>
+        </li>`;
+                    $('#items').append(mystr);
+                }
+
+                // Handle cart
+                if (data[1]) {
+                    try {
+                        let mystr = `<li class="list-group-item d-flex justify-content-between lh-sm">
+                                    <div>
+                                        <h6 class="my-0">Name</h6>
+                                    </div>
+                                    <span class="text-body-secondary">Price</span>
+                                </li>`;
+                        $('#c_items').append(mystr);
+                        let cart = JSON.parse(data[1]);
+                        // console.log(cart)
+                        total = 0;
+                        if (typeof cart === 'object' && cart !== null) {
+                            for (let item in cart) {
+                                if (cart[item][0] > 0) {
+                                    let name = cart[item][1];
+                                    let qty = cart[item][0];
+                                    let price = cart[item][2];
+                                    console.log(qty);
+                                    mystr = `<li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0">${name}</h6>
+                            </div>
+                            
+                            <span class="text-body-secondary">${qty*price}</span>
+                        </li>`;
+                                    total += (qty * price);
+
+                                    $('#c_items').append(mystr);
+                                    $('#details').show();
+                                    $('#status').show();
+                                }
+                            }
+
+                            mystr = `<li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0">Total Amount: <b>${total}</b></h6>
+                            </div>
+                        </li>`;
+                            $('#c_items').append(mystr);
+                        } else {
+                            throw new Error("Invalid cart format");
+                        }
+                    } catch (error) {
+                        console.error("Cart data is missing or invalid:", data);
+                        let mystr = `<li class="list-group-item d-flex justify-content-between lh-sm">
+                <div>
+                    <h5 style="color:black;" class="my-0">Sorry! There was an error fetching the cart details.</h5>
+                </div>
+            </li>`;
+                        $('#items').append(mystr);
+                    }
+                } else {
+                    console.error("Cart data is missing or invalid:", data);
+                    let mystr = `<li class="list-group-item d-flex justify-content-between lh-sm">
+            <div>
+                <h5 style="color:black;" class="my-0">Sorry! Cart details are unavailable.</h5>
+            </div>
+        </li>`;
+                    $('#items').append(mystr);
+                }
+            });
+
+
+
+
+
+        event.preventDefault();
+
+
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends "shop/basic.html" %}
+
+
+{% block title %} {{product.product_name}} Product View {% endblock %}
+
+{% block css %}
+<style>
+    img {
+        margin-left: 12px;
+    }
+
+    .hellomsg {
+        font-size: 18px;
+        margin-right: 20px;
+        text-decoration: none;
+        color: white;
+    }
+
+    #logout:hover {
+        color: #fff;
+    }
+.btn-secondary {
+   display: none;
+}
+   
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container my-4"> <!-- 1 -->
+    <div class="row"> <!-- 2 -->
+        <div class="col-md-4"> <!-- 3 -->
+            <div class="row"> <!-- 4 -->
+                <img src="/media/{{product.image}}" width="200px" height="300px" style="padding-left: 20px;">
+            </div> <!-- 4 -->
+            <div class="row my-4"> <!-- 5 -->
+                <button class="btn btn-primary mx-2">Buy Now</button>
+                <button class="btn btn-primary cart">Add To Cart</button>
+            </div> <!-- 5 -->
+        </div> <!-- 3 -->
+        <div class="col-md-8" style="color: aliceblue;"> <!-- 6 -->
+            <h3>{{product.product_name}}</h3>
+            <p><b>price: {{product.price}}PKR</b></p>
+            <p>{{product.description}}</p>
+        </div> <!-- 6 -->
+    </div> <!-- 2 -->
+</div> <!-- 1 -->
+
+
+{% endblock %}
+{% block js %}
+<script>
+    console.log("Working");
+    if (localStorage.getItem('cart') == null) {
+        var cart = {};
+    }
+    else {
+        cart = JSON.parse(localStorage.getItem('cart'));
+        let totalItems = Object.values(cart).reduce((acc, quantity) => acc + quantity, 0);
+        document.getElementById('cart').innerHTML = totalItems;
+    }
+    $('.cart').click(function () {
+        var ids_str = this.id.toString();
+        console.log(ids_str);
+        if (cart[ids_str] != undefined) {
+            cart[ids_str] = cart[ids_str] + 1;
+        }
+        else {
+            cart[ids_str] = 1;
+        }
+        console.log(cart);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        let totalItems = Object.values(cart).reduce((acc, quantity) => acc + quantity, 0);
+        document.getElementById('cart').innerHTML = totalItems;
+    });
+    $('#pop-cart').popover();
+    document.getElementById("pop-cart").setAttribute('data-content', '<h5>Cart. These are the items in your cart from my shop</h5>');
+
+
+
+</script>
+{% endblock %}

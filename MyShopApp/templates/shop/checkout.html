@@ -1,0 +1,281 @@
+{% extends 'shop/basic.html' %}
+{% block title%} Checkout - My Awesome Cart{% endblock %}
+
+{% block CSS %}
+<style>
+    
+    .btn-secondary {
+
+        display: none;
+    }
+
+    #pop-cart {
+        display: none;
+    }
+
+    .row {
+        justify-content: center;
+    }
+
+    .mb-3,
+    .needs-validation {
+        color: white;
+    }
+
+    #item {
+        color: black;
+    }
+
+    .hellomsg {
+        font-size: 18px;
+        margin-right: 20px;
+        text-decoration: none;
+        color: white;
+    }
+
+    #logout:hover {
+        color: #fff;
+    }
+
+    #item {
+        padding-left: 10px;
+        color: rgb(0, 0, 0);
+        background-color: rgb(224, 123, 123);
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container check">
+    <main>
+        <!-- Top Start -->
+        <div class="col py-5 text-center">
+            <img class="d-block mx-auto mb-4"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLa9WgapWtqgqJPEFb2yEvC2WYFqeIz-pW1A&usqp=CAU"
+                alt="" width="72" height="57">
+            <h2>Checkout form</h2>
+            <i><span style="font-size: x-large;" class="lead">Trust Us and we guarrantee that you will be
+                    Satisfied.</span></i>
+        </div>
+        <!-- Top End -->
+
+        <!-- Products List and Price start -->
+
+        <div class="row g-5" id="paisy" style="background-color: rgb(36, 33, 33); border-radius: 20px; padding: 30px;">
+            <div class="col-md-5 col-lg-4 order-md-last" style="color: rgb(36, 33, 33);">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-primary">Your cart</span>
+                    <span class="badge bg-primary rounded-pill"></span>
+                </h4>
+                <ul class="list-group mb-3" id="item">
+                    <li class="list-group-item d-flex justify-content-between lh-sm">
+                        <div>
+                            <h6 class="my-0">Product</h6>
+                        </div>
+                        <span class="text-body-secondary">Quantity</span>
+                    </li>
+
+                </ul>
+
+                <form class="card p-2">
+
+                    <div class="list-group-item d-flex justify-content-between">
+                        <span>Total ($)</span>
+                        <strong><i><span id="total-price"></span></i></strong>
+                    </div>
+                    <div class="list-group-item d-flex justify-content-between">
+                        <span>Fill all required details aside and place order.</span>
+<!--                        <strong><i><span i></span></i></strong>-->
+                    </div>
+                    <!-- <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Promo code">
+                        <button type="submit" class="btn btn-secondary">Redeem</button>
+                    </div> -->
+                </form>
+            </div>
+            <!-- Products List and Price End -->
+
+            <!-- Billing Details start -->
+            <div class="col-md-7 col-lg-8">
+                <h4 class="mb-3 my-2">Billing Details</h4>
+                <form class="needs-validation" novalidate action="/shop/checkout/" method="post">{% csrf_token %}
+                    <input type="hidden" name="json_items" id="json_items">
+                    <input type="hidden" name="amount" id="amount">
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <label for="firstName" class="form-label">First name</label>
+                            <input type="text" class="form-control" id="firstName" name="first_name"
+                                placeholder="Enter your first name" required>
+                            <div class="invalid-feedback">
+                                Valid first name is required.
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="lastName" class="form-label">Last name</label>
+                            <input type="text" class="form-control" id="lastName" name="last_name"
+                                placeholder="Enter your last name" required>
+                            <div class="invalid-feedback">
+                                Valid last name is required.
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="phone" class="form-label">Phone Number</label>
+                            <div class="input-group has-validation">
+                                <input type="text" class="form-control" id="phone" name="phone"
+                                    placeholder="Phone number" required>
+                                <div class="invalid-feedback">
+                                    Your phone is required.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="email" class="form-label">Email <span
+                                    class="text-body-secondary">(Optional)</span></label>
+                            <input type="email" class="form-control" id="email" name="email"
+                                placeholder="you@example.com" required>
+                            <div class="invalid-feedback">
+                                Please enter a valid email address for shipping updates.
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="address" class="form-label">Address</label>
+                            <input type="text" class="form-control" id="address" name="address"
+                                placeholder="1234 Main St" required>
+                            <div class="invalid-feedback">
+                                Please enter your shipping address.
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="address2" class="form-label">Address 2 <span
+                                    class="text-body-secondary">(Optional)</span></label>
+                            <input type="text" class="form-control" id="address2" name="address2"
+                                placeholder="Apartment or suite">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="country" class="form-label">Country</label>
+                            <input type="text" class="form-control" id="country" name="country" placeholder="Mangolia"
+                                required>
+                            <div class="invalid-feedback">
+                                Country required.
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="city" class="form-label">City</label>
+                            <input type="text" class="form-control" id="city" name="city" placeholder="kabul" required>
+                            <div class="invalid-feedback">
+                                City required.
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="zip" class="form-label">Zip Code</label>
+                            <input type="text" class="form-control" id="zip" name="zip" placeholder="123" required>
+                            <div class="invalid-feedback">
+                                Zip code required.
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="my-4">
+                    <h4 class="mb-3">Payment</h4>
+                    <div class="row gy-3">
+                        <div class="col-md-6">
+                            <label for="name_on_credit" class="form-label">Name on card</label>
+                            <input type="text" class="form-control" id="name_on_credit" name="name_on_credit"
+                                placeholder="Ali Huzaifa" required>
+                            <small class="text-body-secondary">Full name as displayed on card</small>
+                            <div class="invalid-feedback">
+                                Name on card is required
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="credit_number" class="form-label">Credit card number</label>
+                            <input type="number" class="form-control" id="credit_number" name="credit_number"
+                                placeholder="523523" required>
+                            <div class="invalid-feedback">
+                                Credit card number is required
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="expiry" class="form-label">Expiration</label>
+                            <input type="date" class="form-control" id="expiry" name="expiry" placeholder="" required>
+                            <div class="invalid-feedback">
+                                Expiration date required
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="CVV" class="form-label">CVV</label>
+                            <input type="number" class="form-control" id="CVV" name="CVV" placeholder="4234" required>
+                            <div class="invalid-feedback">
+                                Security code required
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="my-4">
+                    <button class="w-100 btn btn-primary btn-lg my-4" type="submit">Place Order</button>
+                </form>
+
+            </div>
+            <!-- Billing Details End -->
+
+        </div>
+    </main>
+</div>
+<br>
+{% endblock %}
+
+{% block js %}
+<script>
+    if (localStorage.getItem('cart') == null) {
+        var cart = {};
+    } else {
+        cart = JSON.parse(localStorage.getItem('cart'));
+    }
+    let total_price = 0;
+    for (item in cart) {
+        if (cart[item][0] > 0) {
+            let name = cart[item][1];
+            let qty = cart[item][0];
+            let item_price = cart[item][2];
+            total_price += parseInt(qty) * parseInt(item_price);
+            // total += qty;
+            
+            
+            mystr = `<li class="list-group-item d-flex justify-content-between lh-sm">
+                        <div>
+                            <h6 class="my-0">${name}</h6>
+                        </div>
+                        <span class="text-body-secondary">${qty}</span>
+                    </li>`
+                    $('#item').append(mystr);
+                    
+                }
+            
+            }
+        
+  
+    if (total_price == 0) {
+        $('#item').append("Your Cart is Empty.GO ADD SOME ITEMS 🚩");
+        cart = JSON.parse(localStorage.getItem('cart'));
+        cart.clear();
+    }
+    else{
+        $('#total-price').append(total_price.toString());
+        $('#json_items').val(JSON.stringify(cart));
+    }
+    // $('#cart-quantity').append(total.toString());
+    // $('#total-price').append((total * 2).toString());
+
+    {% if thank %}
+    alert("Thank you for shopping with us. Your order has been placed successfully with id {{ id_ }}. Use this id to track your order in our tracker page.");
+    localStorage.clear();
+    document.location = "/shop";
+    // {% elif not thank %}
+    // alert("kindly Ensure Your Cart is Not Empty and All Fields are Filled.");
+    
+    // document.location = "checkout/";
+    {% endif %}
+$('#amount').val($('#total-price').html());
+
+
+
+</script>
+{% endblock %}

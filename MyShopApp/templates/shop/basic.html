@@ -1,0 +1,615 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>{% block title %}{% endblock %}</title>
+    {% block CSS %}
+    <style>
+        /* body .no-padding {
+            display: flex;
+            justify-content: space-around;
+            padding-left: 0px;
+        } */
+        .col-md-3 {
+            display: inline-block;
+            margin-left: -4px;
+            min-width: 120px;
+            height: 430px;
+        }
+
+        .carousel-indicators .active {
+            background-color: blue;
+        }
+
+        .col-md-3 img {
+            min-width: 80px;
+            height: 170px;
+        }
+
+        body .carousel-indicator li {
+            background-color: blue;
+        }
+
+        body .carousel-indicators {
+            bottom: -17px;
+            /* top: 10; */
+        }
+
+        dl,
+        ol,
+        ul {
+            margin-bottom: 0rem;
+        }
+
+        body .carousel-control-prev-icon,
+        body .carousel-control-next-icon {
+            background-color: rgb(0, 47, 255);
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            padding-top: 123px;
+            top: auto;
+            bottom: auto;
+
+
+        }
+
+        body .no-padding {
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+
+        a:not([href]) {
+            color: red;
+            cursor: pointer;
+            background-color: rgb(247, 81, 52);
+            color: rgb(255, 255, 255);
+            padding: 5px;
+            margin-top: 10px;
+        }
+
+        #checkout {
+            background-color: blue;
+            color: rgb(255, 255, 255);
+            padding: 5px;
+            margin-top: 10px;
+        }
+
+        #checkout:hover {
+            text-decoration: none;
+            background-color: rgb(10, 10, 90);
+            color: aliceblue;
+        }
+
+        a:not([href]):hover {
+            background-color: rgb(119, 25, 8);
+            color: aliceblue;
+        }
+
+        /* Checkout Page CSS */
+        .col-md-5,
+        .col-md-3,
+        .col-md-4 {
+            height: min-content;
+        }
+
+        .py-5 text-center {
+            margin-top: -44px;
+            margin-bottom: 100px;
+        }
+
+        /*  */
+        .min-vh-100 {
+            /* border: 10px solid blanchedalmond dotted; */
+            min-height: 70vh;
+            background-color: #333331e8;
+            /* background-image: url('https://img.lovepik.com/background/20211021/large/lovepik-blue-e-commerce-background-image_401460895.jpg'); */
+
+            /* background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMPD5tAjxVu6ZxkoJ99EdfJcH0nn6rHTbDZA&usqp=CAU'); */
+            /* background-image: url("https://t3.ftcdn.net/jpg/02/84/32/52/360_F_284325273_ei2pxwlAyg4ghLOBINFPiF1LVubbfLpA.jpg"); */
+            /* background-position: center; */
+            /* background-size: cover;
+            background-repeat: no-repeat; */
+        }
+
+        .card-body {
+            background-color: lightgray;
+            padding: 10px;
+        }
+
+        .popover-body {
+            background-color: navajowhite;
+        }
+
+        .list-inline-item li a i {
+            text-decoration: none;
+            background-color: white;
+        }
+
+        .navbar {
+            height: 70px;
+            z-index: 2;
+            position: sticky;
+            top: 0;
+
+        }
+
+        .check {
+            color: aliceblue;
+        }
+
+        #category-header {
+            /* width: max-content; */
+            /* background-color: #444545; */
+            color: #ffffff;
+            padding: 0px 5px;
+            text-align: center;
+            align-self: center;
+            font-size: 1.3rem;
+            /* Increased font size */
+            font-weight: 600;
+            /* Semi-bold font weight */
+        }
+
+        /* Checkout page */
+        #carouselExampleIndicators {
+
+            .carousel-control-prev,
+            .carousel-control-next {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                z-index: 1;
+            }
+
+
+            .ttl {
+                left: 10px;
+
+            }
+
+            .ttr {
+                right: 10px;
+            }
+
+            [type=button]:not(:disabled),
+            [type=reset]:not(:disabled),
+            [type=submit]:not(:disabled),
+            button:not(:disabled) {
+                width: 34px;
+                height: 6px;
+                margin-bottom: 20px;
+
+            }
+        }
+
+        .ttl .carousel-control-prev-icon,
+        .ttr .carousel-control-next-icon {
+            display: none;
+        }
+
+        .images img {
+            height: 500px;
+        }
+
+        .tt {
+            background-color: rgb(179, 178, 178);
+            border: none;
+        }
+
+        .row {
+            
+            justify-content: center;
+        }
+
+        #footer_text {
+            color: white;
+        }
+
+        .hellomsg {
+            font-size: 18px;
+            margin-right: 20px;
+            text-decoration: none;
+            color: white;
+        }
+
+        #logout:hover {
+            color: #fff;
+        }
+
+
+
+        .name {
+            font-weight: bold;
+            font-size: 20px;
+            padding: 0px;
+            margin-left: 4px;
+        }
+
+        .price {
+            font-size: 18px;
+            margin: 5px;
+        }
+
+        #descp {
+            margin: 4px;
+        }
+
+        .plus,
+        .minus {
+            height: 40px;
+            width: 40px;
+            padding-bottom: 10px;
+        }
+
+        .prr {
+            display: inline;
+            width: 90px;
+            font-size: small;
+            padding: 5px;
+            height: 40px;
+        }
+
+        /*      #card-body {
+            width: 17rem;
+        } */
+        body .carousel-indicators {
+            z-index: 1;
+        }
+
+        navbar-collapse {
+            background-color: black;
+        }
+
+        /* new */
+        .col-md-3 img {
+            width: 165px;
+            min-width: 32px;
+            height: 100px;
+        }
+
+        .card-body {
+            width: 10.38rem;
+        }
+
+        #card {
+            width: 10.45rem;
+            min-height: 15rem;
+        }
+
+        .mb-4,
+        .my-4 {
+            margin-bottom: 0rem !important;
+        }
+
+        .prr {
+            width: 63px;
+            font-size: xx-small;
+            height: 32px;
+        }
+
+
+
+        @media (max-width: 600px) {
+
+            .container,
+            .container-md,
+            .container-sm {
+                max-width: 221px;
+            }
+
+            #foot {
+                max-width: 700px;
+            }
+
+            #footi {
+                width: 200px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .col-md-5,
+            .col-md-4 {
+                display: flex;
+                height: min-content;
+                align-content: center;
+                flex-direction: column;
+                justify-content: flex-end;
+                align-items: center;
+            }
+        }
+
+        @media (min-width: 600px) {
+
+            .container,
+            .container-md,
+            .container-sm {
+                max-width: 220px;
+            }
+
+            #foot {
+                max-width: 700px;
+            }
+
+            #footi {
+                width: 200px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+            }
+
+            .col-md-5,
+            .col-md-4 {
+                display: flex;
+                height: min-content;
+                align-content: center;
+                flex-direction: column;
+                justify-content: flex-end;
+                align-items: center;
+            }
+
+        }
+
+        @media (min-width: 700px) and (max-width:1030px) {
+
+            .ccn {
+                margin-right: 200px;
+            }
+
+            .ccp {
+                margin-left: 200px;
+            }
+        }
+
+        @media (min-width: 1031px){
+
+            .ccn{
+                margin-right: 330px;
+            }
+
+            .ccp {
+                margin-left: 330px;
+            }
+        }
+
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            padding-top: 123px;
+            top: auto;
+            bottom: auto;
+        }
+        /* ABOUT US  */
+        .aboutus{
+            max-width: 80%;
+        }
+    </style>
+    {% endblock %}
+
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+    <!--NAVBAR-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/shop/"><img style="width: 30px; height: 30px; border-radius: 10px;"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLa9WgapWtqgqJPEFb2yEvC2WYFqeIz-pW1A&usqp=CAU"
+                alt=""></a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <div class="navbar-collapse collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/shop">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/shop/tracker">Tracker</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/shop/about">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/shop/contact">Contact Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/blog">Blog</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0" method="get" action="/shop/search">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search"
+                    id="search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+
+            </form>
+            <span class="hellomsg mx-2">Hello, {{request.user}}</span>
+            <span><a style="background-color: green; padding: 5px; border-radius: 50px; " class="hellomsg mx-2"
+                    id="logout" href="{% url 'logout' %}">logout</a></span>
+            <button type="button" class="btn btn-secondary mx-2" id="pop-cart" data-container="body"
+                data-toggle="popover" data-placement="Bottom" data-html="true" data-content="">
+                <i class="fa fa-shopping-cart"></i>&nbsp;<span id="cart">0</span></button>
+        </div>
+
+
+    </nav>
+    <!-- Navbar ended -->
+    {% block body %}
+
+    {% endblock %}
+    <!-- </main> -->
+    <!-- Footer -->
+    <footer class="bg-dark text-white pt-5 pb-4">
+        <div class="container text-center text-md-left" id="foot">
+            <div class="row text-center text-md-left">
+
+                <!-- Company Information -->
+                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                    <div class="row">
+                        <h5 class="text-uppercase mb-4 font-weight-bold text-warning">ALI Inc</h5>
+
+                    </div>
+                    <p id="footer_text">ALI, Inc. is a Pakistani multinational automotive and clean energy company
+                        headquartered in
+                        Islamabad, Pakistan, which designs, manufactures and sells.</p>
+                </div>
+
+                <!-- Customer Service Links -->
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+                    <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Customer Service</h5>
+                    <p>
+                        <a href="" class="text-white" style="text-decoration: none;"> Your Account</a>
+                    </p>
+                    <p>
+                        <a href="" class="text-white" style="text-decoration: none;"> Help Center</a>
+                    </p>
+                    <p>
+                        <a href="" class="text-white" style="text-decoration: none;"> Contact Us</a>
+                    </p>
+                    <p>
+                        <a href="" class="text-white" style="text-decoration: none;"> Returns</a>
+                    </p>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+                    <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Quick Links</h5>
+                    <p>
+                        <a href="/shop" class="text-white" style="text-decoration: none;"> Home</a>
+                    </p>
+                    <p>
+                        <a href="/shop/about" class="text-white" style="text-decoration: none;"> About</a>
+                    </p>
+                    <p>
+                        <a href="/shop/contact" class="text-white" style="text-decoration: none;"> Contact Us</a>
+                    </p>
+                    <p>
+                        <a href="/shop/tracker" class="text-white" style="text-decoration: none;"> Tracker</a>
+                    </p>
+                </div>
+
+                <!-- Social Media Links -->
+                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+                    <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Follow us</h5>
+                    <p>
+                        <i class="fab fa-facebook-f"></i> <a href="https://www.facebook.com" class="text-white"
+                            style="text-decoration: none;"> Facebook</a>
+                    </p>
+                    <p>
+                        <i class="fab fa-twitter"></i> <a href="https://www.twitter.com" class="text-white"
+                            style="text-decoration: none;"> Twitter</a>
+                    </p>
+                    <p>
+                        <i class="fab fa-instagram"></i> <a href="https://www.instagram.com" class="text-white"
+                            style="text-decoration: none;"> Instagram</a>
+                    </p>
+                    <p>
+                        <i class="fab fa-linkedin"></i> <a href="https://pk.linkedin.com/in/huzaifa-saran-03b4a928a"
+                            class="text-white" style="text-decoration: none;"> LinkedIn</a>
+                    </p>
+                </div>
+
+                <!-- Newsletter Signup -->
+                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+                    <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Newsletter</h5>
+                    <form action="/shop/" method="post" id="footi">{% csrf_token %}
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" class="form-control"
+                                placeholder="Enter your email">
+                        </div>
+                        <button type="submit" class="btn btn-outline-warning btn-block">Subscribe</button>
+                    </form>
+                </div>
+
+            </div>
+
+            <hr class="mb-4">
+
+            <!-- Footer Bottom -->
+            <div class="row align-items-center">
+                <!-- Copyright -->
+                <div class="col-md-7 col-lg-8">
+                    <p class="text-white">© 2024 All Rights Reserved by:
+                        <a href="" style="text-decoration: none;">
+                            <strong class="text-warning">ALI</strong>
+                        </a>
+                    </p>
+                </div>
+
+                <!-- Payment Methods -->
+                <div class="col-md-5 col-lg-4">
+                    <div class="text-center text-md-right">
+                        <ul class="list-unstyled list-inline">
+                            <li class="list-inline-item">
+                                <a href="#"> <i class="fa fa-instagram fa-2x mx-2"></i></a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://pk.linkedin.com/in/huzaifa-saran-03b4a928a"><i
+                                        class="fa fa-linkedin fa-2x mx-2"></i></a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://hub.xb6868.com/HuzaifaSaran0"><i
+                                        class="fa fa-github fa-2x mx-2"></i></a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://leetcode.com/huzaifasaran0/"><img
+                                        src="https://upload.wikimedia.org/wikipedia/commons/1/19/LeetCode_logo_black.png"
+                                        alt="LeetCode Logo"
+                                        style="width:35px; height: 35px; margin-bottom: 8px; filter: grayscale(100%);"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+
+    {% block js %}
+    <script>
+
+    </script>
+    {% endblock %}
+
+
+
+</body>
+
+</html>
+
+
+<!-- 
+Go to settings.py and add in allowed_hosts = ['.vercel.app']
+created requirements.txt by using "pip freeze > requirements.txt"
+ALso create vercel.json and paste the code given by video
+in wsgi file, write app = application
+
+
+-->
