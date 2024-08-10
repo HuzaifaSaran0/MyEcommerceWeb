@@ -1,1 +1,1 @@
-# MyEcommerceWeb
+# MyEcommerceWeb using Purely Django
